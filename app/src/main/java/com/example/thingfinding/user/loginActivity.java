@@ -8,7 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.thingfinding.Fragment.Fragment_Me;
+import com.example.thingfinding.HttpUtil;
 import com.example.thingfinding.ItemInfo;
 import com.example.thingfinding.R;
 import com.example.thingfinding.SQLiteHelper;
@@ -28,6 +31,7 @@ import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +49,6 @@ public class loginActivity extends AppCompatActivity {
     static String name, password,image1;
     private String isMemory = "";//isMemory变量用来判断SharedPreferences有没有数据，包括上面的YES和NO
     private String FILE = "saveUserNamePwd";//用于保存SharedPreferences的文件
-    private String Mark = "mark";//用于保存SharedPreferences的文件
     private SharedPreferences sp = null;//声明一个SharedPreferences
     private ItemInfo itemInfo;
     private List<Map<String,String>> list;
@@ -80,7 +83,6 @@ public class loginActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isLogin();
                 passData();
             }
         });
@@ -105,53 +107,54 @@ public class loginActivity extends AppCompatActivity {
         remenber();
        Intent intent=new Intent(this,Fragment_Me.class);
         String name=et_username.getText().toString().trim();
+        String paw=et_password.getText().toString().trim();
         this.dbhelper = SQLiteHelper.getInstance(this);
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String username = null;
         String password=null;
-       Cursor cur = db.query("Users",new String[]{"username","password"},
-                "username=? and password=?", new String[]{et_username.getText().toString().trim(),et_password.getText().toString().trim()}, null, null, null);
-         while(cur.moveToNext()) {
-            //将Blob数据转化为字节数组
-            username = cur.getString(cur.getColumnIndex("username"));
-             password = cur.getString(cur.getColumnIndex("password"));
-             if(et_username.getText().toString().trim().equals(username)&&
-                     et_password.getText().toString().trim().equals(password)){
-                intent.putExtra("login",name);
-                 setResult(1, intent);
-                 finish();
-             }else if(!et_username.getText().toString().trim().equals(username)){
-                 AlertDialog diaglog;
-                 diaglog=new AlertDialog.Builder(this).setTitle("")
-                         .setMessage("用户名错误！")
-                         .setIcon(R.mipmap.ic_launcher)
-                         .setPositiveButton("确定",null)
-                         .create();
-                 diaglog.show();
-             }else if(!et_password.getText().toString().trim().equals(password)){
-                 AlertDialog diaglog;
-                 diaglog=new AlertDialog.Builder(this).setTitle("")
-                         .setMessage("密码错误！")
-                         .setIcon(R.mipmap.ic_launcher)
-                         .setPositiveButton("确定",null)
-                         .create();
-                 diaglog.show();
-             }
-        }
 
-
-
-
-        cur.close();
-        db.close();
+//       Cursor cur = db.query("Users",new String[]{"username","password"},
+//                "username=? and password=?", new String[]{et_username.getText().toString().trim(),
+//                       et_password.getText().toString().trim()}, null, null,
+//               null);
+//         while(cur.moveToNext()) {
+//            //将Blob数据转化为字节数组
+//            username = cur.getString(cur.getColumnIndex("username"));
+//             password = cur.getString(cur.getColumnIndex("password"));
+//             if(et_username.getText().toString().trim().equals(username)&&
+//                     et_password.getText().toString().trim().equals(password)){
+//                intent.putExtra("login",name);
+//                 setResult(1, intent);
+//                 finish();
+//             }else if(!et_username.getText().toString().trim().equals(username)){
+//                 AlertDialog diaglog;
+//                 diaglog=new AlertDialog.Builder(this).setTitle("")
+//                         .setMessage("用户名错误！")
+//                         .setIcon(R.mipmap.ic_launcher)
+//                         .setPositiveButton("确定",null)
+//                         .create();
+//                 diaglog.show();
+//             }else if(!et_password.getText().toString().trim().equals(password)){
+//                 AlertDialog diaglog;
+//                 diaglog=new AlertDialog.Builder(this).setTitle("")
+//                         .setMessage("密码错误！")
+//                         .setIcon(R.mipmap.ic_launcher)
+//                         .setPositiveButton("确定",null)
+//                         .create();
+//                 diaglog.show();
+//             }
+//        }
+//        cur.close();
+//        db.close();
     }
-    public void isLogin() {
-        SharedPreferences sp1 = getSharedPreferences(Mark, MODE_PRIVATE);
-        Editor edit = sp1.edit();
-        edit.putBoolean("isLogin", true);//存入boolean类型的登录状态
-        edit.commit();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String query(String username, String password) throws Exception{
+        Map<String,String> map=new HashMap<>();
+        map.put("username",username);
+        map.put("paw",password);
+        String url=HttpUtil.BASE_URL+"";
+        return HttpUtil.postRequest(url,map);
     }
-
     public void remenber() {
         if (checkBox.isChecked()) {
             if (sp == null) {
