@@ -20,15 +20,16 @@ import android.widget.Toast;
 import com.example.thingfinding.Fragment.Fragment_HomePage;
 import com.example.thingfinding.Fragment.Fragment_Me;
 import com.example.thingfinding.Fragment.Fragment_News;
+import com.example.thingfinding.Fragment.Fragment_ShoppingCart;
 import com.example.thingfinding.Fragment.MyFragmentPageAdapter;
 
 public class TestActivity extends FragmentActivity implements
         OnCheckedChangeListener, OnPageChangeListener{
-
     //定义Fragment
     private Fragment fragment1;
     private Fragment fragment2;
     private Fragment fragment3;
+    private Fragment fragment4;
     //定义FragmentManager
     private FragmentManager fragmentManager;
 
@@ -52,11 +53,13 @@ public class TestActivity extends FragmentActivity implements
     private void initViewPager() {
         fragment1 = new Fragment_HomePage();
         fragment2 = new Fragment_News();
-        fragment3 = new Fragment_Me();
+        fragment3 = new Fragment_ShoppingCart();
+        fragment4 = new Fragment_Me();
         fragmentLists = new ArrayList<Fragment>();
         fragmentLists.add(fragment1);
         fragmentLists.add(fragment2);
         fragmentLists.add(fragment3);
+        fragmentLists.add(fragment4);
         //获取FragmentManager对象
         fragmentManager = getSupportFragmentManager();
         //获取FragmentPageAdapter对象
@@ -89,8 +92,11 @@ public class TestActivity extends FragmentActivity implements
             case R.id.radioButton_news: // 团购
                 viewPager.setCurrentItem(1,false);
                 break;
-            case R.id.radioButton_me: // 发现
+            case R.id.radioButton_shopping_cart: // 团购
                 viewPager.setCurrentItem(2,false);
+                break;
+            case R.id.radioButton_me: // 发现
+                viewPager.setCurrentItem(3,false);
                 break;
 
         }
@@ -115,6 +121,9 @@ public class TestActivity extends FragmentActivity implements
                 radioGroup.check(R.id.radioButton_news);
                 break;
             case 2:
+                radioGroup.check(R.id.radioButton_shopping_cart);
+                break;
+            case 3:
                 radioGroup.check(R.id.radioButton_me);
                 break;
         }

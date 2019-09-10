@@ -53,6 +53,18 @@
             android:text="消息"
             android:textColor="@drawable/bottom_icon_text_selector" />
 
+
+        <RadioButton
+            android:id="@+id/radioButton_shopping_cart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/image_news"
+            android:gravity="center"
+            android:text="购物车"
+            android:textColor="@drawable/bottom_icon_text_selector" />
+
         <RadioButton
             android:id="@+id/radioButton_me"
             android:layout_width="0dp"

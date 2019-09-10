@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".Fragment.Fragment_ShoppingCart">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="购物车"
+            android:textColor="#000000"
+            android:textSize="30dp"
+            android:background="#04c4ff"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvhome"
+        android:layout_width="match_parent"
+        android:layout_height="399dp"
+        android:divider="#d9d9d9" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:gravity="left"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="150dp"
+            android:layout_height="64dp"
+            android:text="全选"
+            android:textSize="18dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:text="合计："
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="71dp"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:text="结算（0）"
+            android:background="#fa97a9"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
