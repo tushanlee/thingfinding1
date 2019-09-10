@@ -1,6 +1,8 @@
 package com.example.thingfinding;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +92,7 @@ public class HttpUtil
 	 * @return 服务器响应字符串
 	 * @throws Exception 该方法可能引发的异常
 	 */
+	@RequiresApi(api = Build.VERSION_CODES.N)
 	public static String postRequest(String url, Map<String, String> rawParams) throws Exception
 	{
 		FutureTask<String> task = new FutureTask<>(() -> {
