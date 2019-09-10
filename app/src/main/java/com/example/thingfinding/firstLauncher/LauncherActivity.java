@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-
+import android.content.SharedPreferences.Editor;
 import com.example.thingfinding.TestActivity;
 import com.example.thingfinding.R;
 
@@ -19,10 +19,12 @@ public class LauncherActivity extends AppCompatActivity {
     public static final String  FIRST_LAUNCHER="first_launcher";//是否第一次启动
     private final long waitTime = 3000;//1秒
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
         start();
     }
 
@@ -51,4 +53,6 @@ public class LauncherActivity extends AppCompatActivity {
         SharedPreferences sp=getSharedPreferences("ansen",Context.MODE_PRIVATE);
         return sp.getBoolean(FIRST_LAUNCHER,false);
     }
+
+
 }

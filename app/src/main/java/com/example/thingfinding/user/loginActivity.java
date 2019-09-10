@@ -45,6 +45,7 @@ public class loginActivity extends AppCompatActivity {
     static String name, password,image1;
     private String isMemory = "";//isMemory变量用来判断SharedPreferences有没有数据，包括上面的YES和NO
     private String FILE = "saveUserNamePwd";//用于保存SharedPreferences的文件
+    private String Mark = "mark";//用于保存SharedPreferences的文件
     private SharedPreferences sp = null;//声明一个SharedPreferences
     private ItemInfo itemInfo;
     private List<Map<String,String>> list;
@@ -79,6 +80,7 @@ public class loginActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isLogin();
                 passData();
             }
         });
@@ -143,7 +145,12 @@ public class loginActivity extends AppCompatActivity {
         cur.close();
         db.close();
     }
-
+    public void isLogin() {
+        SharedPreferences sp1 = getSharedPreferences(Mark, MODE_PRIVATE);
+        Editor edit = sp1.edit();
+        edit.putBoolean("isLogin", true);//存入boolean类型的登录状态
+        edit.commit();
+    }
 
     public void remenber() {
         if (checkBox.isChecked()) {

@@ -35,6 +35,7 @@ public class My_SetupActivity extends Activity implements View.OnClickListener {
     private ArrayList<String> list = new ArrayList<String>();
     private String username;
     private String FILE = "saveUserNamePwd";//用于保存SharedPreferences的文件
+    private String Mark = "mark";//用于保存SharedPreferences的文件
     private SharedPreferences sp = null;//声明一个SharedPreferences
 
     @Override
@@ -115,6 +116,13 @@ public class My_SetupActivity extends Activity implements View.OnClickListener {
         finish();
     }
 
+    public void isLogin() {
+        SharedPreferences sp1 = getSharedPreferences(Mark, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp1.edit();
+        edit.putBoolean("isLogin", false);//存入boolean类型的登录状态
+        edit.commit();
+    }
+
     private void showNormalDialog() {
         final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
         normalDialog.setTitle("退出登录");
@@ -123,6 +131,7 @@ public class My_SetupActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(My_SetupActivity.this, "退出登录成功", Toast.LENGTH_SHORT).show();
+                isLogin();
                 clearLoginStatus();//清除登录状态和登录时的用户名
                 Intent intent = new Intent();
                 intent.putExtra("result", "登 录");

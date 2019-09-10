@@ -38,6 +38,9 @@ public class FirstLauncherActivity extends AppCompatActivity{
 
     private TextView tvGotoMain;
 
+    private String Mark = "mark";//用于保存SharedPreferences的文件
+    private SharedPreferences sps = null;//声明一个SharedPreferences
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class FirstLauncherActivity extends AppCompatActivity{
       group = (ViewGroup) findViewById(R.id.viewGroup);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         tvGotoMain= (TextView) findViewById(R.id.tv_goto_main);
-
+        saveMark();
         try {
             Field rightEdgeField = viewPager.getClass().getDeclaredField("mRightEdge");
             if (rightEdgeField != null){
@@ -184,6 +187,13 @@ public class FirstLauncherActivity extends AppCompatActivity{
         SharedPreferences sp=getSharedPreferences("ansen",Context.MODE_PRIVATE);
         SharedPreferences.Editor edit=sp.edit();
         edit.putBoolean(LauncherActivity.FIRST_LAUNCHER,true);
+        edit.commit();
+    }
+
+    public void saveMark(){
+        sps=getSharedPreferences(Mark, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sps.edit();
+        edit.putBoolean("isLogin", false);
         edit.commit();
     }
 }

@@ -27,9 +27,13 @@ import java.util.List;
 public class My_InformationActivity extends AppCompatActivity  implements OnClickListener{
 
     private SQLiteHelper dbhelper;
+    private ListView listView;
+    private String[] heading={"发布寻物启示","发布招领启示","我的发布","设置",};
+    private ArrayList<String> list = new ArrayList<String>();
     Intent intent;
     String username;
-    private TextView nameText;
+    private  TextView exitText;
+   /* private TextView nameText;
     private TextView phoneText;
     private TextView idText;
     private TextView emailText;
@@ -44,7 +48,7 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
     String phone;
     String id;
     String email;
-    String address;
+    String address;*/
 
 
     @Override
@@ -53,16 +57,22 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
         setContentView(R.layout.activity_my__information);
         intent = getIntent();
         username=intent.getStringExtra("username");
-        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
         initView();
-        passData();
+        MyBaseAdapter myBaseAdapter=new MyBaseAdapter();
+        listView.setAdapter(myBaseAdapter);
+        for(int i=0;i<heading.length;i++){
+            list.add(heading[i]);
+        }
+
         initEvent();
 
 
     }
 
     private void initView() {
-        nameText=(TextView)findViewById(R.id.nameending);
+        listView=(ListView)findViewById(R.id.informationLv);
+        exitText=(TextView) findViewById(R.id.exitText);
+       /* nameText=(TextView)findViewById(R.id.nameending);
         phoneText=(TextView)findViewById(R.id.phoneending);
         idText=(TextView)findViewById(R.id.idending);
         emailText=(TextView)findViewById(R.id.nameending);
@@ -71,62 +81,82 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
         phoneLayout=(LinearLayout) findViewById(R.id.phoneLayout);
         idLayout=(LinearLayout) findViewById(R.id.idLayout);
         emailLayout=(LinearLayout) findViewById(R.id.emailLayout);
-        addressLayout=(LinearLayout) findViewById(R.id.addressLayout);
+        addressLayout=(LinearLayout) findViewById(R.id.addressLayout);*/
     }
     private void initEvent() {
-        nameLayout.setOnClickListener(this);
+       /* nameLayout.setOnClickListener(this);
         phoneLayout.setOnClickListener(this);
         idLayout.setOnClickListener(this);
         emailLayout.setOnClickListener(this);
-        addressLayout.setOnClickListener(this);
+        addressLayout.setOnClickListener(this);*/
+        exitText.setOnClickListener(this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                // TODO Auto-generated method stub
+                if (list.get(arg2).equals("发布寻物启示")) {
+
+                }
+                if (list.get(arg2).equals("发布招领启示")) {
+
+                }
+                if (list.get(arg2).equals("我的发布")) {
+
+                }
+                if (list.get(arg2).equals("设置")) {
+
+                }
+            }
+        });
 
     }
 
-    public void exit(View view) {
+    public void exit() {
         finish();
     }
-    public void passData() {
-        this.dbhelper = SQLiteHelper.getInstance(this);
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
 
-        Cursor cur = db.query("Users",new String[]{"password","name","phone","id","email","address"},
-                "username=?", new String[]{username},
-                null, null, null);
-        while(cur.moveToNext()) {
-             pass= cur.getString(cur.getColumnIndex("password"));
-             name= cur.getString(cur.getColumnIndex("name"));
-             phone = cur.getString(cur.getColumnIndex("phone"));
-             id= cur.getString(cur.getColumnIndex("id"));
-             email = cur.getString(cur.getColumnIndex("email"));
-             address= cur.getString(cur.getColumnIndex("address"));
-             }
-        nameText.setText(pass);
-        phoneText.setText(pass);
-        idText.setText(pass);
-        emailText.setText(pass);
-        addressText.setText(pass);
 
+    class MyBaseAdapter extends BaseAdapter {
+        public int getCount(){
+            return heading.length;
+        }
+        public Object getItem(int position){
+            return heading[position];
+        }
+        public long getItemId(int postion){
+            return postion;
+        }
+        public View getView(int postion, View convertView, ViewGroup parent){
+            ViewHolder holder;
+            if(convertView==null) {
+                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.save_list, parent, false);
+                holder = new ViewHolder();
+                holder.texthead = (TextView) convertView.findViewById(R.id.text_head);
+                holder.textend = (TextView) convertView.findViewById(R.id.text_end);
+                convertView.setTag(holder);
+            }else{
+                holder=(ViewHolder)convertView.getTag();
+            }
+            holder.texthead.setText(heading[postion]);
+            return convertView;
+        }
+
+    }
+    class ViewHolder{
+        TextView texthead;
+        TextView textend;
 
     }
     @Override
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.nameLayout:
-                Toast.makeText(this, "被点击", Toast.LENGTH_SHORT).show();
+            case R.id.exitText:
+                exit();
                 break;
-            case R.id.phoneLayout:
-                Toast.makeText(this, "被点击", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.idLayout:
-                Toast.makeText(this, "被点击", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.emailLayout:
-                Toast.makeText(this, "被点击", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.addressLayout:
-                Toast.makeText(this, "被点击", Toast.LENGTH_SHORT).show();
-                break;
+
         }
 
     }
