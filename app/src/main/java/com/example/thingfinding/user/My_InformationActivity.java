@@ -28,11 +28,12 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
 
     private SQLiteHelper dbhelper;
     private ListView listView;
-    private String[] heading={"发布寻物启示","发布招领启示","我的发布","设置",};
+    private String[] heading={"姓名","电话号码","身份证号码","邮箱","地址",};
     private ArrayList<String> list = new ArrayList<String>();
     Intent intent;
     String username;
     private  TextView exitText;
+    String mark;
    /* private TextView nameText;
     private TextView phoneText;
     private TextView idText;
@@ -96,17 +97,25 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 // TODO Auto-generated method stub
-                if (list.get(arg2).equals("发布寻物启示")) {
-
+                if (list.get(arg2).equals("姓名")) {
+                    mark = list.get(arg2);
+                    Details();
                 }
-                if (list.get(arg2).equals("发布招领启示")) {
-
+                if (list.get(arg2).equals("电话号码")) {
+                    mark = list.get(arg2);
+                    Details();
                 }
-                if (list.get(arg2).equals("我的发布")) {
-
+                if (list.get(arg2).equals("身份证号码")) {
+                    mark = list.get(arg2);
+                    Details();
                 }
-                if (list.get(arg2).equals("设置")) {
-
+                if (list.get(arg2).equals("邮箱")) {
+                    mark = list.get(arg2);
+                    Details();
+                }
+                if (list.get(arg2).equals("地址")) {
+                    mark = list.get(arg2);
+                    Details();
                 }
             }
         });
@@ -116,7 +125,11 @@ public class My_InformationActivity extends AppCompatActivity  implements OnClic
     public void exit() {
         finish();
     }
-
+    public void Details(){
+            Intent intent = new Intent(this, My_DetailsActivity.class);
+            intent.putExtra("details", mark);
+            startActivity(intent);
+        }
 
     class MyBaseAdapter extends BaseAdapter {
         public int getCount(){

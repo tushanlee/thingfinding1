@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thingfinding.Fragment.Fragment_Me;
@@ -35,12 +36,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class loginActivity extends AppCompatActivity {
+public class loginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText et_username;
     private EditText et_password;
     private ImageView image;
     private Button btn;
+    private TextView exitText ;
+    private TextView findpasswordText;
+    private TextView registerText;
     Bitmap bitmap=null;
     byte buff[] = new byte[125*250];
     private CheckBox checkBox;
@@ -49,6 +53,7 @@ public class loginActivity extends AppCompatActivity {
     static String name, password,image1;
     private String isMemory = "";//isMemory变量用来判断SharedPreferences有没有数据，包括上面的YES和NO
     private String FILE = "saveUserNamePwd";//用于保存SharedPreferences的文件
+    private String Mark = "mark";//用于保存SharedPreferences的文件
     private SharedPreferences sp = null;//声明一个SharedPreferences
     private ItemInfo itemInfo;
     private List<Map<String,String>> list;
@@ -60,12 +65,20 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
+        initView();
+        initEvent();
+    }
+
+    private void initView() {
         et_username=(EditText)findViewById(R.id.username) ;
         et_password=(EditText)findViewById(R.id.password) ;
         image=(ImageView)findViewById(R.id.imageView2) ;
-        btn=(Button)findViewById(R.id.button3);
+        btn=(Button)findViewById(R.id.login);
         checkBox=(CheckBox)findViewById(R.id.checkboxs) ;
-       sp = getSharedPreferences(FILE, MODE_PRIVATE);
+        exitText = (TextView) findViewById(R.id.exitText);
+        findpasswordText = (TextView) findViewById(R.id.findpasswordText);
+        registerText = (TextView) findViewById(R.id.registerText);
+        sp = getSharedPreferences(FILE, MODE_PRIVATE);
         name = sp.getString("name", "");
         password = sp.getString("password", "");
         image1 = sp.getString("image", "");
@@ -80,73 +93,98 @@ public class loginActivity extends AppCompatActivity {
             et_username.setText(name);
             queryImage();
         }
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                passData();
-            }
-        });
+
 
     }
 
-    public void exit(View v){
+    private void initEvent() {
+        exitText.setOnClickListener(this);
+        btn.setOnClickListener(this);
+        findpasswordText.setOnClickListener(this);
+        registerText.setOnClickListener(this);
+    }
+
+    public void onClick(View v){
+        switch(v.getId()){
+            case R.id.exitText:
+                exit();
+                break;
+            case R.id.findpasswordText:
+                findpassword();
+                break;
+            case R.id.registerText:
+                register();
+                break;
+            case R.id.login:
+                isLogin();
+                passData();
+                break;
+        }
+    }
+
+    public void exit(){
         finish();
     }
 
-    public void register(View v){
+    public void isLogin(){
+        SharedPreferences sp1 = getSharedPreferences(Mark, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp1.edit();
+        edit.putBoolean("isLogin", true);//存入boolean类型的登录状态
+        edit.commit();
+    }
+
+    public void register(){
         Intent intent=new Intent(this,RegisterActivity.class);
         startActivityForResult(intent, 1);
     }
 
-    public void findpassword(View v){
+    public void findpassword(){
         Intent intent=new Intent(this,FindPasswordActivity.class);
         startActivity(intent);
     }
 
     public void passData() {
         remenber();
-       Intent intent=new Intent(this,Fragment_Me.class);
+        Intent intent=new Intent(this,Fragment_Me.class);
         String name=et_username.getText().toString().trim();
-        String paw=et_password.getText().toString().trim();
         this.dbhelper = SQLiteHelper.getInstance(this);
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String username = null;
         String password=null;
-
-//       Cursor cur = db.query("Users",new String[]{"username","password"},
-//                "username=? and password=?", new String[]{et_username.getText().toString().trim(),
-//                       et_password.getText().toString().trim()}, null, null,
-//               null);
-//         while(cur.moveToNext()) {
-//            //将Blob数据转化为字节数组
-//            username = cur.getString(cur.getColumnIndex("username"));
-//             password = cur.getString(cur.getColumnIndex("password"));
-//             if(et_username.getText().toString().trim().equals(username)&&
-//                     et_password.getText().toString().trim().equals(password)){
-//                intent.putExtra("login",name);
-//                 setResult(1, intent);
-//                 finish();
-//             }else if(!et_username.getText().toString().trim().equals(username)){
-//                 AlertDialog diaglog;
-//                 diaglog=new AlertDialog.Builder(this).setTitle("")
-//                         .setMessage("用户名错误！")
-//                         .setIcon(R.mipmap.ic_launcher)
-//                         .setPositiveButton("确定",null)
-//                         .create();
-//                 diaglog.show();
-//             }else if(!et_password.getText().toString().trim().equals(password)){
-//                 AlertDialog diaglog;
-//                 diaglog=new AlertDialog.Builder(this).setTitle("")
-//                         .setMessage("密码错误！")
-//                         .setIcon(R.mipmap.ic_launcher)
-//                         .setPositiveButton("确定",null)
-//                         .create();
-//                 diaglog.show();
-//             }
-//        }
-//        cur.close();
-//        db.close();
+        Cursor cur = db.query("Users",new String[]{"username","password"},
+                "username=? and password=?", new String[]{et_username.getText().toString().trim(),et_password.getText().toString().trim()}, null, null, null);
+        while(cur.moveToNext()) {
+            //将Blob数据转化为字节数组
+            username = cur.getString(cur.getColumnIndex("username"));
+            password = cur.getString(cur.getColumnIndex("password"));
+            if(et_username.getText().toString().trim().equals(username)&&
+                    et_password.getText().toString().trim().equals(password)){
+                intent.putExtra("login",name);
+                setResult(1, intent);
+                finish();
+            }else if(!et_username.getText().toString().trim().equals(username)){
+                AlertDialog diaglog;
+                diaglog=new AlertDialog.Builder(this).setTitle("")
+                        .setMessage("用户名错误！")
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton("确定",null)
+                        .create();
+                diaglog.show();
+            }else if(!et_password.getText().toString().trim().equals(password)){
+                AlertDialog diaglog;
+                diaglog=new AlertDialog.Builder(this).setTitle("")
+                        .setMessage("密码错误！")
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton("确定",null)
+                        .create();
+                diaglog.show();
+            }
+        }
+        cur.close();
+        db.close();
     }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String query(String username, String password) throws Exception{
         Map<String,String> map=new HashMap<>();

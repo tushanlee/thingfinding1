@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,60 +9,92 @@
     tools:context=".Fragment.Fragment_ShoppingCart">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="51dp"
-        android:orientation="horizontal"
         android:gravity="center"
-        >
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#04c4ff"
             android:gravity="center"
             android:text="购物车"
             android:textColor="#000000"
-            android:textSize="30dp"
-            android:background="#04c4ff"/>
+            android:textSize="30dp" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvhome"
+    <TextView
+        android:id="@+id/emptyText"
         android:layout_width="match_parent"
-        android:layout_height="399dp"
-        android:divider="#d9d9d9" />
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.099"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ListView
+        android:id="@+id/lvcart"
+        android:layout_width="match_parent"
+        android:layout_height="374dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:divider="#d9d9d9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.355"
+        tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="87dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="left"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953"
+        tools:layout_editor_absoluteX="16dp">
 
         <RadioButton
             android:layout_width="150dp"
-            android:layout_height="64dp"
+            android:layout_height="match_parent"
             android:text="全选"
             android:textSize="18dp" />
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="87dp"
             android:gravity="center"
             android:text="合计："
             android:textSize="18dp" />
 
         <TextView
             android:layout_width="71dp"
-            android:layout_height="64dp"
+            android:layout_height="87dp"
             android:gravity="center"
             android:textSize="18dp" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="87dp"
+            android:background="#fa97a9"
             android:gravity="center"
             android:text="结算（0）"
-            android:background="#fa97a9"
             android:textSize="18dp" />
     </LinearLayout>
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -44,7 +44,8 @@
         <activity android:name=".tenderview.carweixiutypeActivity" />
         <activity android:name=".tenderview.carweixiuActivity" />
         <activity android:name=".tenderview.furniturestypeActivity" />
-        <activity android:name=".tenderview.furnituresActivity"></activity>
+        <activity android:name=".tenderview.furnituresActivity" />
+        <activity android:name=".user.addressbookActivity"></activity>
     </application>
 
 </manifest>
