@@ -7,13 +7,26 @@
     tools:context=".user.My_InformationActivity">
 
     <TextView
-        android:id="@+id/exitText"
-        android:layout_width="389dp"
-        android:layout_height="51dp"
-        android:gravity="left"
-        android:text="^←^               设置"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="个人信息"
+        android:gravity="center"
         android:textSize="30dp"
-        android:background="#d6eddd"/>
+        android:textColor="#000"
+        android:background="#82ffb4"/>
+
+    <TextView
+        android:id="@+id/exitText"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text=" ^←^"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="7dp" />
 
     <ListView
         android:id="@+id/informationLv"
@@ -22,7 +35,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/exitText"
         app:layout_constraintVertical_bias="0.438"
         tools:layout_editor_absoluteX="0dp">
 
