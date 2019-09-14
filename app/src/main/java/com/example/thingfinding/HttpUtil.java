@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-
 import okhttp3.Call;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -33,7 +32,7 @@ import okhttp3.Response;
  */
 public class HttpUtil
 {
-	public static final String BASE_URL = "http://192.168.1.88:8888/auction/api/";
+	public static final String BASE_URL = "http://192.168.43.195:8080";
 	private static Map<String, List<Cookie>> cookieStore = new HashMap<>();
 	// 创建线程池
 	private static ExecutorService threadPool = Executors.newFixedThreadPool(30);
